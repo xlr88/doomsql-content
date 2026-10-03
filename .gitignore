@@ -4,3 +4,7 @@ __pycache__/
 .idea/
 .venv/
 drafts/
+
+# secrets + generator logs
+.env
+ai_runs/

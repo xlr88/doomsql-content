@@ -1,0 +1,51 @@
+name: AI generate questions
+
+# Runs ai_gen.py in GitHub's cloud: no laptop needed.
+# Setup (one time): repo Settings → Secrets and variables → Actions →
+#   New repository secret: GEMINI_API_KEY (or OPENAI_API_KEY / ANTHROPIC_API_KEY)
+#   Variables tab (optional): AI_PROVIDER = gemini | openai | anthropic
+# Run by hand: Actions tab → "AI generate questions" → Run workflow.
+# To run daily, uncomment the schedule block below.
+
+on:
+  workflow_dispatch:
+    inputs:
+      easy:   { description: "Easy questions",   default: "2", required: true }
+      medium: { description: "Medium questions", default: "2", required: true }
+      hard:   { description: "Hard questions",   default: "1", required: true }
+  # schedule:
+  #   - cron: "30 0 * * *"   # every day 06:00 India time (00:30 UTC)
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generate, check, commit and push
+        env:
+          AI_PROVIDER: ${{ vars.AI_PROVIDER || 'gemini' }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          git config user.name  "doomsql-bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          python ai_gen.py auto \
+            --e "${{ github.event.inputs.easy   || '2' }}" \
+            --m "${{ github.event.inputs.medium || '2' }}" \
+            --h "${{ github.event.inputs.hard   || '1' }}"
+      - name: Upload run log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-run-log
+          path: ai_runs/
+          if-no-files-found: ignore
