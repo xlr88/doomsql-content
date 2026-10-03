@@ -1,0 +1,113 @@
+{
+  "contentVersion": 1,
+  "title": "High-Value Inventory Products",
+  "difficulty": "EASY",
+  "sqlDialect": "SQLITE",
+  "tags": [
+    "select",
+    "where",
+    "filter"
+  ],
+  "description": "Find the product name and unit price of all items in the 'Electronics' category with a unit price strictly greater than 150. Return the columns name and unit_price.",
+  "orderSensitive": false,
+  "tables": [
+    {
+      "name": "Products",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "category",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "unit_price",
+          "type": "REAL",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "stock",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          1,
+          "Wireless Mouse",
+          "Electronics",
+          29.99,
+          120
+        ],
+        [
+          2,
+          "Mechanical Keyboard",
+          "Electronics",
+          119.5,
+          45
+        ],
+        [
+          3,
+          "4K Gaming Monitor",
+          "Electronics",
+          349.99,
+          18
+        ],
+        [
+          4,
+          "Noise Cancelling Headphones",
+          "Electronics",
+          199.99,
+          32
+        ],
+        [
+          5,
+          "Ergonomic Office Chair",
+          "Furniture",
+          249.0,
+          15
+        ],
+        [
+          6,
+          "Standing Desk Converter",
+          "Furniture",
+          169.0,
+          8
+        ]
+      ]
+    }
+  ],
+  "solutionQuery": "SELECT name, unit_price FROM Products WHERE category = 'Electronics' AND unit_price > 150;",
+  "explanation": "Filter by category = 'Electronics' and unit_price > 150 using a WHERE clause with the AND operator.",
+  "expectedOutput": {
+    "columns": [
+      "name",
+      "unit_price"
+    ],
+    "rows": [
+      [
+        "4K Gaming Monitor",
+        349.99
+      ],
+      [
+        "Noise Cancelling Headphones",
+        199.99
+      ]
+    ]
+  },
+  "id": "sql_013"
+}

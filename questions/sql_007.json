@@ -1,0 +1,35 @@
+{
+  "id": "sql_007",
+  "contentVersion": 1,
+  "title": "Duplicate Emails",
+  "difficulty": "MEDIUM",
+  "sqlDialect": "SQLITE",
+  "tags": ["group by", "having"],
+  "description": "Find all duplicate email addresses in the Person table. Return a single column named email.",
+  "orderSensitive": false,
+  "tables": [
+    {
+      "name": "Person",
+      "columns": [
+        { "name": "id", "type": "INTEGER", "nullable": false, "primaryKey": true },
+        { "name": "email", "type": "TEXT", "nullable": false, "primaryKey": false }
+      ],
+      "rows": [
+        [1, "a@b.com"],
+        [2, "c@d.com"],
+        [3, "a@b.com"],
+        [4, "e@f.com"],
+        [5, "c@d.com"]
+      ]
+    }
+  ],
+  "expectedOutput": {
+    "columns": ["email"],
+    "rows": [
+      ["a@b.com"],
+      ["c@d.com"]
+    ]
+  },
+  "solutionQuery": "SELECT email FROM Person GROUP BY email HAVING COUNT(email) > 1;",
+  "explanation": "Group by email and filter groups with COUNT(email) > 1 using the HAVING clause."
+}

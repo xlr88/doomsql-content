@@ -1,0 +1,136 @@
+{
+  "manifestVersion": 5,
+  "generatedAt": "2026-09-29T19:42:42+00:00",
+  "questions": [
+    {
+      "id": "sql_001",
+      "file": "sql_001.json",
+      "contentVersion": 1,
+      "sha256": "0e4e7a6cfe8336d4d690bf62371d103a57ebb9e39af37ad85ac66fd5ac5b1cb3",
+      "minAppVersionCode": 1,
+      "difficulty": "EASY",
+      "title": "High Earners in Engineering",
+      "addedAt": "2026-09-28"
+    },
+    {
+      "id": "sql_002",
+      "file": "sql_002.json",
+      "contentVersion": 1,
+      "sha256": "0e7e705be9478a000d159824a53dcfa36dce6d1277f88c30d4d220a38f28721f",
+      "minAppVersionCode": 1,
+      "difficulty": "EASY",
+      "title": "Unique Job Titles",
+      "addedAt": "2026-09-28"
+    },
+    {
+      "id": "sql_003",
+      "file": "sql_003.json",
+      "contentVersion": 1,
+      "sha256": "a5c641060d8cdc46dee5ca0595d59534e182909553744f4a0702a3d3e3269330",
+      "minAppVersionCode": 1,
+      "difficulty": "EASY",
+      "title": "Top 3 Highest Paid Employees",
+      "addedAt": "2026-09-28"
+    },
+    {
+      "id": "sql_004",
+      "file": "sql_004.json",
+      "contentVersion": 1,
+      "sha256": "700d6e32049d7a99a88d2d6860ada5da583c4c91fba50d1e26761c82e04dbc1f",
+      "minAppVersionCode": 1,
+      "difficulty": "EASY",
+      "title": "Department Employee Count",
+      "addedAt": "2026-09-28"
+    },
+    {
+      "id": "sql_005",
+      "file": "sql_005.json",
+      "contentVersion": 1,
+      "sha256": "724926e299870bebfd1d372867626722f07e53d2c0a23211b8f556969364ff66",
+      "minAppVersionCode": 1,
+      "difficulty": "EASY",
+      "title": "Employees and Department Names",
+      "addedAt": "2026-09-28"
+    },
+    {
+      "id": "sql_006",
+      "file": "sql_006.json",
+      "contentVersion": 1,
+      "sha256": "60c59fd594c64f8447a77eccc6df75a54592165b79743a9a25beecb246290758",
+      "minAppVersionCode": 1,
+      "difficulty": "MEDIUM",
+      "title": "Second Highest Salary",
+      "addedAt": "2026-09-28"
+    },
+    {
+      "id": "sql_007",
+      "file": "sql_007.json",
+      "contentVersion": 1,
+      "sha256": "2015dd917b64f22a0c52b2abe5e7147a099281eff090eec74f2a6f94fb22e38e",
+      "minAppVersionCode": 1,
+      "difficulty": "MEDIUM",
+      "title": "Duplicate Emails",
+      "addedAt": "2026-09-28"
+    },
+    {
+      "id": "sql_008",
+      "file": "sql_008.json",
+      "contentVersion": 1,
+      "sha256": "03aa9c53c0f8896b6bf27721ad8ace172aed31de72ff74d08cb509d34c0adfec",
+      "minAppVersionCode": 1,
+      "difficulty": "MEDIUM",
+      "title": "Customers Who Never Order",
+      "addedAt": "2026-09-28"
+    },
+    {
+      "id": "sql_009",
+      "file": "sql_009.json",
+      "contentVersion": 1,
+      "sha256": "072680fdc5baa37c4e16366bfd3f2dc483060cc44ddb42ab17bc4be4c145aa6f",
+      "minAppVersionCode": 1,
+      "difficulty": "MEDIUM",
+      "title": "Salary Breakdown by Gender",
+      "addedAt": "2026-09-28"
+    },
+    {
+      "id": "sql_010",
+      "file": "sql_010.json",
+      "contentVersion": 1,
+      "sha256": "c6fb5539f17de4c3f99854556d505635e80b447837f3b75159f947ebff07eff6",
+      "minAppVersionCode": 1,
+      "difficulty": "HARD",
+      "title": "Top 3 Salaries Per Department",
+      "addedAt": "2026-09-28"
+    },
+    {
+      "id": "sql_011",
+      "file": "sql_011.json",
+      "contentVersion": 1,
+      "sha256": "d77e63d18147ad120040fac09e1424da82c891608d102d816277152ce35759cd",
+      "minAppVersionCode": 1,
+      "difficulty": "HARD",
+      "title": "Rising Temperature",
+      "addedAt": "2026-09-28"
+    },
+    {
+      "id": "sql_012",
+      "file": "sql_012.json",
+      "contentVersion": 1,
+      "sha256": "c1b80d6ae92f5b847dce941ce2f3b99a5ff14bd57ef2ade2921831f0d5dceabe",
+      "minAppVersionCode": 1,
+      "difficulty": "HARD",
+      "title": "Consecutive Login Streaks",
+      "addedAt": "2026-09-28"
+    },
+    {
+      "id": "sql_013",
+      "file": "sql_013.json",
+      "contentVersion": 1,
+      "sha256": "447e6e600133d1bd5651cdedc766cbbaa42cfa529e66ee0573f18a25e3e89b67",
+      "minAppVersionCode": 1,
+      "difficulty": "EASY",
+      "title": "High-Value Inventory Products",
+      "addedAt": "2026-09-30"
+    }
+  ]
+}

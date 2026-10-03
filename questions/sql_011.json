@@ -1,0 +1,36 @@
+{
+  "id": "sql_011",
+  "contentVersion": 1,
+  "title": "Rising Temperature",
+  "difficulty": "HARD",
+  "sqlDialect": "SQLITE",
+  "tags": ["window function", "lag", "date"],
+  "description": "Find the record_date of all dates where the temperature was higher than the previous day. Return a single column named record_date.",
+  "orderSensitive": false,
+  "tables": [
+    {
+      "name": "Weather",
+      "columns": [
+        { "name": "id", "type": "INTEGER", "nullable": false, "primaryKey": true },
+        { "name": "record_date", "type": "TEXT", "nullable": false, "primaryKey": false },
+        { "name": "temperature", "type": "REAL", "nullable": false, "primaryKey": false }
+      ],
+      "rows": [
+        [1, "2024-01-01", 10],
+        [2, "2024-01-02", 25],
+        [3, "2024-01-03", 20],
+        [4, "2024-01-04", 30],
+        [5, "2024-01-05", 28]
+      ]
+    }
+  ],
+  "expectedOutput": {
+    "columns": ["record_date"],
+    "rows": [
+      ["2024-01-02"],
+      ["2024-01-04"]
+    ]
+  },
+  "solutionQuery": "WITH PrevWeather AS (SELECT record_date, temperature, LAG(temperature, 1) OVER (ORDER BY record_date ASC) AS prev_temp FROM Weather) SELECT record_date FROM PrevWeather WHERE prev_temp IS NOT NULL AND temperature > prev_temp;",
+  "explanation": "Use LAG(temperature, 1) OVER (ORDER BY record_date ASC) to access the preceding day's temperature and filter where current temperature exceeds it."
+}

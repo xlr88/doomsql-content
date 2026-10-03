@@ -1,0 +1,49 @@
+{
+  "id": "sql_005",
+  "contentVersion": 1,
+  "title": "Employees and Department Names",
+  "difficulty": "EASY",
+  "sqlDialect": "SQLITE",
+  "tags": ["join", "inner join"],
+  "description": "Find the employee name and their corresponding department name for all employees in the database. Return columns name and department_name.",
+  "orderSensitive": false,
+  "tables": [
+    {
+      "name": "Employee",
+      "columns": [
+        { "name": "id", "type": "INTEGER", "nullable": false, "primaryKey": true },
+        { "name": "name", "type": "TEXT", "nullable": false, "primaryKey": false },
+        { "name": "department_id", "type": "INTEGER", "nullable": true, "primaryKey": false }
+      ],
+      "rows": [
+        [1, "Alice", 10],
+        [2, "Bob", 20],
+        [3, "Carol", 10],
+        [4, "Dave", 30]
+      ]
+    },
+    {
+      "name": "Department",
+      "columns": [
+        { "name": "department_id", "type": "INTEGER", "nullable": false, "primaryKey": true },
+        { "name": "department_name", "type": "TEXT", "nullable": false, "primaryKey": false }
+      ],
+      "rows": [
+        [10, "Engineering"],
+        [20, "Marketing"],
+        [30, "Finance"]
+      ]
+    }
+  ],
+  "expectedOutput": {
+    "columns": ["name", "department_name"],
+    "rows": [
+      ["Alice", "Engineering"],
+      ["Bob", "Marketing"],
+      ["Carol", "Engineering"],
+      ["Dave", "Finance"]
+    ]
+  },
+  "solutionQuery": "SELECT e.name, d.department_name FROM Employee e INNER JOIN Department d ON e.department_id = d.department_id;",
+  "explanation": "Use an INNER JOIN between Employee and Department matching on department_id."
+}

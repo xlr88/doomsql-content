@@ -1,0 +1,54 @@
+{
+  "id": "sql_010",
+  "contentVersion": 1,
+  "title": "Top 3 Salaries Per Department",
+  "difficulty": "HARD",
+  "sqlDialect": "SQLITE",
+  "tags": ["window function", "dense_rank", "join"],
+  "description": "A high earner in a department is an employee who has a salary in the top 3 unique salaries for that department. Find all high earners. Return department_name, employee_name, and salary, ordered by department_name ascending, salary descending, and employee_name ascending.",
+  "orderSensitive": true,
+  "tables": [
+    {
+      "name": "Employee",
+      "columns": [
+        { "name": "id", "type": "INTEGER", "nullable": false, "primaryKey": true },
+        { "name": "name", "type": "TEXT", "nullable": false, "primaryKey": false },
+        { "name": "salary", "type": "REAL", "nullable": false, "primaryKey": false },
+        { "name": "department_id", "type": "INTEGER", "nullable": false, "primaryKey": false }
+      ],
+      "rows": [
+        [1, "Joe", 85000, 10],
+        [2, "Henry", 80000, 20],
+        [3, "Sam", 60000, 20],
+        [4, "Max", 90000, 10],
+        [5, "Janet", 69000, 10],
+        [6, "Randy", 85000, 10],
+        [7, "Will", 70000, 10]
+      ]
+    },
+    {
+      "name": "Department",
+      "columns": [
+        { "name": "department_id", "type": "INTEGER", "nullable": false, "primaryKey": true },
+        { "name": "department_name", "type": "TEXT", "nullable": false, "primaryKey": false }
+      ],
+      "rows": [
+        [10, "IT"],
+        [20, "Sales"]
+      ]
+    }
+  ],
+  "expectedOutput": {
+    "columns": ["department_name", "employee_name", "salary"],
+    "rows": [
+      ["IT", "Max", 90000],
+      ["IT", "Joe", 85000],
+      ["IT", "Randy", 85000],
+      ["IT", "Will", 70000],
+      ["Sales", "Henry", 80000],
+      ["Sales", "Sam", 60000]
+    ]
+  },
+  "solutionQuery": "WITH Ranked AS (SELECT e.name AS employee_name, e.salary, d.department_name, DENSE_RANK() OVER (PARTITION BY e.department_id ORDER BY e.salary DESC) AS rnk FROM Employee e JOIN Department d ON e.department_id = d.department_id) SELECT department_name, employee_name, salary FROM Ranked WHERE rnk <= 3 ORDER BY department_name ASC, salary DESC, employee_name ASC;",
+  "explanation": "Compute DENSE_RANK() partitioned by department_id and ordered by salary descending. Filter where rnk <= 3."
+}

@@ -1,0 +1,40 @@
+{
+  "id": "sql_009",
+  "contentVersion": 1,
+  "title": "Salary Breakdown by Gender",
+  "difficulty": "MEDIUM",
+  "sqlDialect": "SQLITE",
+  "tags": ["case", "aggregation", "group by"],
+  "description": "For each department_id, calculate the total salary paid to male employees ('M') and female employees ('F'). Return department_id, male_salary, and female_salary. If a department has no employees of a given gender, return 0.",
+  "orderSensitive": false,
+  "tables": [
+    {
+      "name": "Employee",
+      "columns": [
+        { "name": "id", "type": "INTEGER", "nullable": false, "primaryKey": true },
+        { "name": "name", "type": "TEXT", "nullable": false, "primaryKey": false },
+        { "name": "gender", "type": "TEXT", "nullable": false, "primaryKey": false },
+        { "name": "salary", "type": "REAL", "nullable": false, "primaryKey": false },
+        { "name": "department_id", "type": "INTEGER", "nullable": false, "primaryKey": false }
+      ],
+      "rows": [
+        [1, "Alice", "F", 70000, 10],
+        [2, "Bob", "M", 60000, 10],
+        [3, "Charlie", "M", 65000, 10],
+        [4, "Diana", "F", 80000, 20],
+        [5, "Edward", "M", 75000, 20],
+        [6, "Fiona", "F", 90000, 30]
+      ]
+    }
+  ],
+  "expectedOutput": {
+    "columns": ["department_id", "male_salary", "female_salary"],
+    "rows": [
+      [10, 125000, 70000],
+      [20, 75000, 80000],
+      [30, 0, 90000]
+    ]
+  },
+  "solutionQuery": "SELECT department_id, SUM(CASE WHEN gender = 'M' THEN salary ELSE 0 END) AS male_salary, SUM(CASE WHEN gender = 'F' THEN salary ELSE 0 END) AS female_salary FROM Employee GROUP BY department_id;",
+  "explanation": "Use conditional aggregation with SUM and CASE expressions to pivot gender salary totals by department."
+}

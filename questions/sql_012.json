@@ -1,0 +1,42 @@
+{
+  "id": "sql_012",
+  "contentVersion": 1,
+  "title": "Consecutive Login Streaks",
+  "difficulty": "HARD",
+  "sqlDialect": "SQLITE",
+  "tags": ["window function", "lead", "streaks"],
+  "description": "Find all users who logged in on at least 3 consecutive days. Return the distinct user_id.",
+  "orderSensitive": false,
+  "tables": [
+    {
+      "name": "UserLogin",
+      "columns": [
+        { "name": "id", "type": "INTEGER", "nullable": false, "primaryKey": true },
+        { "name": "user_id", "type": "INTEGER", "nullable": false, "primaryKey": false },
+        { "name": "login_date", "type": "TEXT", "nullable": false, "primaryKey": false }
+      ],
+      "rows": [
+        [1, 101, "2024-03-01"],
+        [2, 101, "2024-03-02"],
+        [3, 101, "2024-03-03"],
+        [4, 101, "2024-03-05"],
+        [5, 102, "2024-03-01"],
+        [6, 102, "2024-03-03"],
+        [7, 102, "2024-03-05"],
+        [8, 103, "2024-03-10"],
+        [9, 103, "2024-03-11"],
+        [10, 103, "2024-03-12"],
+        [11, 103, "2024-03-13"]
+      ]
+    }
+  ],
+  "expectedOutput": {
+    "columns": ["user_id"],
+    "rows": [
+      [101],
+      [103]
+    ]
+  },
+  "solutionQuery": "WITH DistinctLogins AS (SELECT DISTINCT user_id, login_date FROM UserLogin), LeadLogins AS (SELECT user_id, login_date, LEAD(login_date, 1) OVER (PARTITION BY user_id ORDER BY login_date ASC) AS next_day, LEAD(login_date, 2) OVER (PARTITION BY user_id ORDER BY login_date ASC) AS next_next_day FROM DistinctLogins) SELECT DISTINCT user_id FROM LeadLogins WHERE next_day = date(login_date, '+1 day') AND next_next_day = date(login_date, '+2 day');",
+  "explanation": "Use LEAD to get the subsequent two login dates for each user and compare with date() function to verify they are consecutive."
+}

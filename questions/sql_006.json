@@ -1,0 +1,34 @@
+{
+  "id": "sql_006",
+  "contentVersion": 1,
+  "title": "Second Highest Salary",
+  "difficulty": "MEDIUM",
+  "sqlDialect": "SQLITE",
+  "tags": ["subquery", "aggregation"],
+  "description": "Find the second highest distinct salary from the Employee table. Return a single column named salary. If there is no second highest salary, return NULL.",
+  "orderSensitive": false,
+  "tables": [
+    {
+      "name": "Employee",
+      "columns": [
+        { "name": "id", "type": "INTEGER", "nullable": false, "primaryKey": true },
+        { "name": "name", "type": "TEXT", "nullable": false, "primaryKey": false },
+        { "name": "salary", "type": "REAL", "nullable": true, "primaryKey": false },
+        { "name": "department_id", "type": "INTEGER", "nullable": true, "primaryKey": false }
+      ],
+      "rows": [
+        [1, "John", 60000, 10],
+        [2, "Alice", 75000, 20],
+        [3, "David", 55000, 10]
+      ]
+    }
+  ],
+  "expectedOutput": {
+    "columns": ["salary"],
+    "rows": [
+      [60000]
+    ]
+  },
+  "solutionQuery": "SELECT MAX(salary) AS salary FROM Employee WHERE salary < (SELECT MAX(salary) FROM Employee);",
+  "explanation": "The inner query finds the top salary; the outer query finds the largest salary below it."
+}

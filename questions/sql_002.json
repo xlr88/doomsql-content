@@ -1,0 +1,40 @@
+{
+  "id": "sql_002",
+  "contentVersion": 1,
+  "title": "Unique Job Titles",
+  "difficulty": "EASY",
+  "sqlDialect": "SQLITE",
+  "tags": ["distinct", "basic"],
+  "description": "Find all unique job titles from the Employee table. Return a single column named title.",
+  "orderSensitive": false,
+  "tables": [
+    {
+      "name": "Employee",
+      "columns": [
+        { "name": "id", "type": "INTEGER", "nullable": false, "primaryKey": true },
+        { "name": "name", "type": "TEXT", "nullable": false, "primaryKey": false },
+        { "name": "title", "type": "TEXT", "nullable": false, "primaryKey": false },
+        { "name": "department_id", "type": "INTEGER", "nullable": true, "primaryKey": false }
+      ],
+      "rows": [
+        [1, "John", "Software Engineer", 10],
+        [2, "Alice", "Data Analyst", 20],
+        [3, "Bob", "Software Engineer", 10],
+        [4, "Carol", "Product Manager", 30],
+        [5, "Dave", "Data Analyst", 20],
+        [6, "Eve", "QA Engineer", 10]
+      ]
+    }
+  ],
+  "expectedOutput": {
+    "columns": ["title"],
+    "rows": [
+      ["Software Engineer"],
+      ["Data Analyst"],
+      ["Product Manager"],
+      ["QA Engineer"]
+    ]
+  },
+  "solutionQuery": "SELECT DISTINCT title FROM Employee;",
+  "explanation": "Use SELECT DISTINCT to return each unique title without duplicates."
+}

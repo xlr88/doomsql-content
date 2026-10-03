@@ -1,0 +1,37 @@
+{
+  "id": "sql_001",
+  "contentVersion": 1,
+  "title": "High Earners in Engineering",
+  "difficulty": "EASY",
+  "sqlDialect": "SQLITE",
+  "tags": ["select", "where", "filter"],
+  "description": "Find the names of all employees in department 10 who earn more than 60000. Return a single column named name.",
+  "orderSensitive": false,
+  "tables": [
+    {
+      "name": "Employee",
+      "columns": [
+        { "name": "id", "type": "INTEGER", "nullable": false, "primaryKey": true },
+        { "name": "name", "type": "TEXT", "nullable": false, "primaryKey": false },
+        { "name": "salary", "type": "REAL", "nullable": true, "primaryKey": false },
+        { "name": "department_id", "type": "INTEGER", "nullable": true, "primaryKey": false }
+      ],
+      "rows": [
+        [1, "John", 60000, 10],
+        [2, "Alice", 75000, 10],
+        [3, "David", 55000, 10],
+        [4, "Emma", 82000, 10],
+        [5, "Michael", 90000, 20]
+      ]
+    }
+  ],
+  "expectedOutput": {
+    "columns": ["name"],
+    "rows": [
+      ["Alice"],
+      ["Emma"]
+    ]
+  },
+  "solutionQuery": "SELECT name FROM Employee WHERE department_id = 10 AND salary > 60000;",
+  "explanation": "Filter rows where department_id is 10 and salary is strictly greater than 60000 using WHERE with AND."
+}

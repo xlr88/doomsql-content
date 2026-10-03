@@ -1,0 +1,38 @@
+{
+  "id": "sql_003",
+  "contentVersion": 1,
+  "title": "Top 3 Highest Paid Employees",
+  "difficulty": "EASY",
+  "sqlDialect": "SQLITE",
+  "tags": ["order by", "limit"],
+  "description": "Find the name and salary of the top 3 highest paid employees. Order by salary descending, and in case of ties order by name ascending.",
+  "orderSensitive": true,
+  "tables": [
+    {
+      "name": "Employee",
+      "columns": [
+        { "name": "id", "type": "INTEGER", "nullable": false, "primaryKey": true },
+        { "name": "name", "type": "TEXT", "nullable": false, "primaryKey": false },
+        { "name": "salary", "type": "REAL", "nullable": true, "primaryKey": false },
+        { "name": "department_id", "type": "INTEGER", "nullable": true, "primaryKey": false }
+      ],
+      "rows": [
+        [1, "John", 60000, 10],
+        [2, "Alice", 95000, 20],
+        [3, "Bob", 80000, 10],
+        [4, "Carol", 95000, 30],
+        [5, "Dave", 70000, 20]
+      ]
+    }
+  ],
+  "expectedOutput": {
+    "columns": ["name", "salary"],
+    "rows": [
+      ["Alice", 95000],
+      ["Carol", 95000],
+      ["Bob", 80000]
+    ]
+  },
+  "solutionQuery": "SELECT name, salary FROM Employee ORDER BY salary DESC, name ASC LIMIT 3;",
+  "explanation": "Sort by salary in descending order, break ties using name ascending, and limit the result to 3 rows."
+}
