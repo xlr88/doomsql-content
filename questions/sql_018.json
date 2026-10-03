@@ -1,0 +1,106 @@
+{
+  "contentVersion": 1,
+  "title": "Hospital Department Patient Count",
+  "difficulty": "EASY",
+  "sqlDialect": "SQLITE",
+  "tags": [
+    "aggregate",
+    "group by",
+    "count"
+  ],
+  "description": "Count how many patients are currently admitted to each department. Return department_name and the total number of patients as patient_count.",
+  "orderSensitive": false,
+  "tables": [
+    {
+      "name": "Admissions",
+      "columns": [
+        {
+          "name": "admission_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "patient_name",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "department_name",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "room_number",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          101,
+          "Lucas Scott",
+          "Cardiology",
+          302
+        ],
+        [
+          102,
+          "Sarah Connor",
+          "Cardiology",
+          305
+        ],
+        [
+          103,
+          "Ethan Hunt",
+          "Neurology",
+          412
+        ],
+        [
+          104,
+          "Elena Fisher",
+          "Cardiology",
+          308
+        ],
+        [
+          105,
+          "Arthur Dent",
+          "Orthopedics",
+          204
+        ],
+        [
+          106,
+          "Chloe Frazer",
+          "Neurology",
+          415
+        ]
+      ]
+    }
+  ],
+  "solutionQuery": "SELECT department_name, COUNT(*) AS patient_count FROM Admissions GROUP BY department_name;",
+  "explanation": "Group admissions by department_name and use COUNT(*) to count admissions in each group.",
+  "expectedOutput": {
+    "columns": [
+      "department_name",
+      "patient_count"
+    ],
+    "rows": [
+      [
+        "Cardiology",
+        3
+      ],
+      [
+        "Neurology",
+        2
+      ],
+      [
+        "Orthopedics",
+        1
+      ]
+    ]
+  },
+  "id": "sql_018",
+  "minAppVersionCode": 1
+}

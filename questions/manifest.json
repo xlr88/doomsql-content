@@ -1,6 +1,6 @@
 {
-  "manifestVersion": 5,
-  "generatedAt": "2026-09-29T19:42:42+00:00",
+  "manifestVersion": 6,
+  "generatedAt": "2026-10-03T18:14:30+00:00",
   "questions": [
     {
       "id": "sql_001",
@@ -131,6 +131,76 @@
       "difficulty": "EASY",
       "title": "High-Value Inventory Products",
       "addedAt": "2026-09-30"
+    },
+    {
+      "id": "sql_014",
+      "file": "sql_014.json",
+      "contentVersion": 1,
+      "sha256": "d3b18f6cb78d13546e9fb743365ee3f5b5a9a1088f86c54e384d6962d455c418",
+      "minAppVersionCode": 1,
+      "difficulty": "MEDIUM",
+      "title": "Frequent App Buyers",
+      "addedAt": "2026-10-03"
+    },
+    {
+      "id": "sql_015",
+      "file": "sql_015.json",
+      "contentVersion": 1,
+      "sha256": "16614a5f6b01256766d59f9100aeb04de6458ef28ee0323220b7161019239b14",
+      "minAppVersionCode": 1,
+      "difficulty": "HARD",
+      "title": "Top Earner in Each Branch",
+      "addedAt": "2026-10-03"
+    },
+    {
+      "id": "sql_016",
+      "file": "sql_016.json",
+      "contentVersion": 1,
+      "sha256": "bbed857187937f9ed55eb3d59703639583265cae0c40603bc1721433f8edec56",
+      "minAppVersionCode": 1,
+      "difficulty": "HARD",
+      "title": "Cumulative Daily Revenue",
+      "addedAt": "2026-10-03"
+    },
+    {
+      "id": "sql_017",
+      "file": "sql_017.json",
+      "contentVersion": 1,
+      "sha256": "37a505dd9ce4999f389395127350dd20d18fc0769baa6113c59f4d9672680b54",
+      "minAppVersionCode": 1,
+      "difficulty": "EASY",
+      "title": "Top 3 Fastest Racing Lap Times",
+      "addedAt": "2026-10-03"
+    },
+    {
+      "id": "sql_018",
+      "file": "sql_018.json",
+      "contentVersion": 1,
+      "sha256": "a120723623f072e1c74081dd9ffce001a8a7fb0e5bd6052a4a0723410073aa2f",
+      "minAppVersionCode": 1,
+      "difficulty": "EASY",
+      "title": "Hospital Department Patient Count",
+      "addedAt": "2026-10-03"
+    },
+    {
+      "id": "sql_019",
+      "file": "sql_019.json",
+      "contentVersion": 1,
+      "sha256": "e894476a244bb97aee60e90943f04a762157620afc3bb6f795a6c5b8db2693af",
+      "minAppVersionCode": 1,
+      "difficulty": "MEDIUM",
+      "title": "Movie Rating Classification",
+      "addedAt": "2026-10-03"
+    },
+    {
+      "id": "sql_020",
+      "file": "sql_020.json",
+      "contentVersion": 1,
+      "sha256": "bc9712e4fafa124d2f306cb2e407b21328d17a945473cb07e643394c0a975f41",
+      "minAppVersionCode": 1,
+      "difficulty": "MEDIUM",
+      "title": "Authors Without Published Books",
+      "addedAt": "2026-10-03"
     }
   ]
 }

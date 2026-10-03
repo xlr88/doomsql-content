@@ -1,0 +1,127 @@
+{
+  "contentVersion": 1,
+  "title": "Top Earner in Each Branch",
+  "difficulty": "HARD",
+  "sqlDialect": "SQLITE",
+  "tags": [
+    "window function",
+    "dense_rank",
+    "partition"
+  ],
+  "description": "For each bank branch, determine the employee who earns the highest salary. If there is a tie for the top salary, include all tied employees. Return branch, employee_name, and salary, ordered by branch ascending, salary descending, then employee_name ascending.",
+  "orderSensitive": true,
+  "tables": [
+    {
+      "name": "BankEmployees",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "employee_name",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "branch",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "salary",
+          "type": "REAL",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          1,
+          "Sarah",
+          "Downtown",
+          92000.0
+        ],
+        [
+          2,
+          "Daniel",
+          "Downtown",
+          95000.0
+        ],
+        [
+          3,
+          "Marcus",
+          "Downtown",
+          88000.0
+        ],
+        [
+          4,
+          "Jessica",
+          "Uptown",
+          89000.0
+        ],
+        [
+          5,
+          "David",
+          "Uptown",
+          89000.0
+        ],
+        [
+          6,
+          "Emily",
+          "Uptown",
+          76000.0
+        ],
+        [
+          7,
+          "Robert",
+          "Suburbs",
+          82000.0
+        ],
+        [
+          8,
+          "Chloe",
+          "Suburbs",
+          84000.0
+        ]
+      ]
+    }
+  ],
+  "solutionQuery": "WITH Ranked AS (SELECT branch, employee_name, salary, DENSE_RANK() OVER (PARTITION BY branch ORDER BY salary DESC) as rank_num FROM BankEmployees) SELECT branch, employee_name, salary FROM Ranked WHERE rank_num = 1 ORDER BY branch ASC, salary DESC, employee_name ASC;",
+  "explanation": "Use a Common Table Expression (CTE) with DENSE_RANK() partitioned by branch and ordered by salary descending, then filter where rank_num = 1.",
+  "expectedOutput": {
+    "columns": [
+      "branch",
+      "employee_name",
+      "salary"
+    ],
+    "rows": [
+      [
+        "Downtown",
+        "Daniel",
+        95000.0
+      ],
+      [
+        "Suburbs",
+        "Chloe",
+        84000.0
+      ],
+      [
+        "Uptown",
+        "David",
+        89000.0
+      ],
+      [
+        "Uptown",
+        "Jessica",
+        89000.0
+      ]
+    ]
+  },
+  "id": "sql_015",
+  "minAppVersionCode": 1
+}

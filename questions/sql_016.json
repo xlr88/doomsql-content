@@ -1,0 +1,103 @@
+{
+  "contentVersion": 1,
+  "title": "Cumulative Daily Revenue",
+  "difficulty": "HARD",
+  "sqlDialect": "SQLITE",
+  "tags": [
+    "cte",
+    "window function",
+    "running total"
+  ],
+  "description": "Calculate the cumulative total revenue day-by-day. Return sale_date, daily_revenue, and running_total ordered chronologically by sale_date ascending.",
+  "orderSensitive": true,
+  "tables": [
+    {
+      "name": "DailySales",
+      "columns": [
+        {
+          "name": "sale_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "sale_date",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "daily_revenue",
+          "type": "REAL",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          1,
+          "2026-03-01",
+          1250.0
+        ],
+        [
+          2,
+          "2026-03-02",
+          980.5
+        ],
+        [
+          3,
+          "2026-03-03",
+          1420.0
+        ],
+        [
+          4,
+          "2026-03-04",
+          850.25
+        ],
+        [
+          5,
+          "2026-03-05",
+          2100.0
+        ]
+      ]
+    }
+  ],
+  "solutionQuery": "SELECT sale_date, daily_revenue, SUM(daily_revenue) OVER (ORDER BY sale_date ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS running_total FROM DailySales ORDER BY sale_date ASC;",
+  "explanation": "Use SUM(daily_revenue) OVER (ORDER BY sale_date ASC) window function to calculate a cumulative running total across rows.",
+  "expectedOutput": {
+    "columns": [
+      "sale_date",
+      "daily_revenue",
+      "running_total"
+    ],
+    "rows": [
+      [
+        "2026-03-01",
+        1250.0,
+        1250.0
+      ],
+      [
+        "2026-03-02",
+        980.5,
+        2230.5
+      ],
+      [
+        "2026-03-03",
+        1420.0,
+        3650.5
+      ],
+      [
+        "2026-03-04",
+        850.25,
+        4500.75
+      ],
+      [
+        "2026-03-05",
+        2100.0,
+        6600.75
+      ]
+    ]
+  },
+  "id": "sql_016",
+  "minAppVersionCode": 1
+}

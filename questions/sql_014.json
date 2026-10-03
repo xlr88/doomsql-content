@@ -1,0 +1,115 @@
+{
+  "contentVersion": 1,
+  "title": "Frequent App Buyers",
+  "difficulty": "MEDIUM",
+  "sqlDialect": "SQLITE",
+  "tags": [
+    "group by",
+    "having",
+    "aggregate"
+  ],
+  "description": "Find the customer_id of all users who have placed at least 3 orders and whose total spending across all orders exceeds 200. Return customer_id and total_spent.",
+  "orderSensitive": false,
+  "tables": [
+    {
+      "name": "CustomerOrders",
+      "columns": [
+        {
+          "name": "order_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "customer_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "order_amount",
+          "type": "REAL",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          1,
+          101,
+          75.0
+        ],
+        [
+          2,
+          101,
+          80.0
+        ],
+        [
+          3,
+          101,
+          95.0
+        ],
+        [
+          4,
+          102,
+          150.0
+        ],
+        [
+          5,
+          102,
+          120.0
+        ],
+        [
+          6,
+          103,
+          30.0
+        ],
+        [
+          7,
+          103,
+          40.0
+        ],
+        [
+          8,
+          103,
+          50.0
+        ],
+        [
+          9,
+          104,
+          250.0
+        ],
+        [
+          10,
+          104,
+          60.0
+        ],
+        [
+          11,
+          104,
+          45.0
+        ]
+      ]
+    }
+  ],
+  "solutionQuery": "SELECT customer_id, SUM(order_amount) AS total_spent FROM CustomerOrders GROUP BY customer_id HAVING COUNT(*) >= 3 AND SUM(order_amount) > 200;",
+  "explanation": "Group by customer_id, then apply filter conditions on aggregate functions using HAVING COUNT(*) >= 3 AND SUM(order_amount) > 200.",
+  "expectedOutput": {
+    "columns": [
+      "customer_id",
+      "total_spent"
+    ],
+    "rows": [
+      [
+        101,
+        250.0
+      ],
+      [
+        104,
+        355.0
+      ]
+    ]
+  },
+  "id": "sql_014",
+  "minAppVersionCode": 1
+}

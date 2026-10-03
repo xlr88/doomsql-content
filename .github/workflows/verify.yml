@@ -1,0 +1,24 @@
+name: Verify questions
+on: [push, pull_request]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run every solution and check it matches expectedOutput
+        run: python generate_sql_ques/validate_questions.py
+
+      - name: Check manifest.json is up to date
+        run: |
+          python tools/build_manifest.py
+          if ! git diff --quiet -- questions/manifest.json; then
+            echo "::error::manifest.json is stale — run 'python3 tools/build_manifest.py' and commit it"
+            git diff -- questions/manifest.json
+            exit 1
+          fi
+          echo "manifest.json is up to date"

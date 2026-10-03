@@ -122,6 +122,14 @@ def main():
             print(f"  x {f}")
         raise SystemExit(1)
 
+    # Only bump the version when the question list actually changed, so phones
+    # don't re-check for nothing and CI re-runs don't create a fake "update".
+    old_entries = json.loads(MANIFEST.read_text()).get("questions") if MANIFEST.exists() else None
+    if old_entries == entries:
+        print(f"OK  {len(entries)} questions verified")
+        print(f"OK  no changes — manifest.json stays at version {previous_version}")
+        return
+
     MANIFEST.write_text(json.dumps({
         "manifestVersion": previous_version + 1,
         "generatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),

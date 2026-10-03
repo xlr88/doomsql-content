@@ -1,0 +1,132 @@
+{
+  "contentVersion": 1,
+  "title": "Authors Without Published Books",
+  "difficulty": "MEDIUM",
+  "sqlDialect": "SQLITE",
+  "tags": [
+    "left join",
+    "null handling",
+    "subquery"
+  ],
+  "description": "Find the full name of all authors in the Authors table who have not published any books in the Books catalog. Return a single column named author_name.",
+  "orderSensitive": false,
+  "tables": [
+    {
+      "name": "Authors",
+      "columns": [
+        {
+          "name": "author_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "author_name",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "country",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          1,
+          "George Orwell",
+          "United Kingdom"
+        ],
+        [
+          2,
+          "Isaac Asimov",
+          "United States"
+        ],
+        [
+          3,
+          "Philip K. Dick",
+          "United States"
+        ],
+        [
+          4,
+          "Arthur C. Clarke",
+          "United Kingdom"
+        ],
+        [
+          5,
+          "Ursula K. Le Guin",
+          "United States"
+        ]
+      ]
+    },
+    {
+      "name": "Books",
+      "columns": [
+        {
+          "name": "book_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "author_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          101,
+          "1984",
+          1
+        ],
+        [
+          102,
+          "Animal Farm",
+          1
+        ],
+        [
+          103,
+          "Foundation",
+          2
+        ],
+        [
+          104,
+          "I, Robot",
+          2
+        ],
+        [
+          105,
+          "The Left Hand of Darkness",
+          5
+        ]
+      ]
+    }
+  ],
+  "solutionQuery": "SELECT a.author_name FROM Authors a LEFT JOIN Books b ON a.author_id = b.author_id WHERE b.book_id IS NULL;",
+  "explanation": "Perform a LEFT JOIN between Authors and Books on author_id. Authors with no matches will have NULL for b.book_id.",
+  "expectedOutput": {
+    "columns": [
+      "author_name"
+    ],
+    "rows": [
+      [
+        "Philip K. Dick"
+      ],
+      [
+        "Arthur C. Clarke"
+      ]
+    ]
+  },
+  "id": "sql_020",
+  "minAppVersionCode": 1
+}

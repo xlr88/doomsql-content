@@ -1,0 +1,113 @@
+{
+  "contentVersion": 1,
+  "title": "Movie Rating Classification",
+  "difficulty": "MEDIUM",
+  "sqlDialect": "SQLITE",
+  "tags": [
+    "case when",
+    "conditional logic",
+    "aggregate"
+  ],
+  "description": "Categorize movies based on their average score. A movie with score >= 8.5 is 'Masterpiece', between 7.0 and 8.4 is 'Recommended', and below 7.0 is 'Average'. Return title, score, and classification, ordered by score descending, then title ascending.",
+  "orderSensitive": true,
+  "tables": [
+    {
+      "name": "Movies",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "score",
+          "type": "REAL",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          1,
+          "Interstellar",
+          8.7
+        ],
+        [
+          2,
+          "The Matrix",
+          8.7
+        ],
+        [
+          3,
+          "Arrival",
+          7.9
+        ],
+        [
+          4,
+          "Tenet",
+          7.3
+        ],
+        [
+          5,
+          "Jupiter Ascending",
+          5.3
+        ],
+        [
+          6,
+          "Blade Runner 2049",
+          8.0
+        ]
+      ]
+    }
+  ],
+  "solutionQuery": "SELECT title, score, CASE WHEN score >= 8.5 THEN 'Masterpiece' WHEN score >= 7.0 THEN 'Recommended' ELSE 'Average' END AS classification FROM Movies ORDER BY score DESC, title ASC;",
+  "explanation": "Use a CASE WHEN expression to evaluate multiple score boundaries and assign the matching text label.",
+  "expectedOutput": {
+    "columns": [
+      "title",
+      "score",
+      "classification"
+    ],
+    "rows": [
+      [
+        "Interstellar",
+        8.7,
+        "Masterpiece"
+      ],
+      [
+        "The Matrix",
+        8.7,
+        "Masterpiece"
+      ],
+      [
+        "Blade Runner 2049",
+        8.0,
+        "Recommended"
+      ],
+      [
+        "Arrival",
+        7.9,
+        "Recommended"
+      ],
+      [
+        "Tenet",
+        7.3,
+        "Recommended"
+      ],
+      [
+        "Jupiter Ascending",
+        5.3,
+        "Average"
+      ]
+    ]
+  },
+  "id": "sql_019",
+  "minAppVersionCode": 1
+}

@@ -1,0 +1,106 @@
+{
+  "contentVersion": 1,
+  "title": "Top 3 Fastest Racing Lap Times",
+  "difficulty": "EASY",
+  "sqlDialect": "SQLITE",
+  "tags": [
+    "order by",
+    "limit",
+    "ranking"
+  ],
+  "description": "List the driver name and lap_seconds for the top 3 fastest laps recorded. The fastest lap has the lowest lap_seconds. Return driver_name and lap_seconds sorted from fastest to slowest.",
+  "orderSensitive": true,
+  "tables": [
+    {
+      "name": "LapTimes",
+      "columns": [
+        {
+          "name": "lap_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "driver_name",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "track",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "lap_seconds",
+          "type": "REAL",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          1,
+          "Max Verstappen",
+          "Monza",
+          81.04
+        ],
+        [
+          2,
+          "Lewis Hamilton",
+          "Monza",
+          81.35
+        ],
+        [
+          3,
+          "Charles Leclerc",
+          "Monza",
+          81.18
+        ],
+        [
+          4,
+          "Lando Norris",
+          "Monza",
+          81.72
+        ],
+        [
+          5,
+          "Fernando Alonso",
+          "Monza",
+          82.01
+        ],
+        [
+          6,
+          "George Russell",
+          "Monza",
+          81.44
+        ]
+      ]
+    }
+  ],
+  "solutionQuery": "SELECT driver_name, lap_seconds FROM LapTimes ORDER BY lap_seconds ASC LIMIT 3;",
+  "explanation": "Sort by lap_seconds in ascending order (lowest time first) and restrict the result to 3 rows using LIMIT 3.",
+  "expectedOutput": {
+    "columns": [
+      "driver_name",
+      "lap_seconds"
+    ],
+    "rows": [
+      [
+        "Max Verstappen",
+        81.04
+      ],
+      [
+        "Charles Leclerc",
+        81.18
+      ],
+      [
+        "Lewis Hamilton",
+        81.35
+      ]
+    ]
+  },
+  "id": "sql_017",
+  "minAppVersionCode": 1
+}

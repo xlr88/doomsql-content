@@ -1,0 +1,52 @@
+{
+  "contentVersion": 1,
+  "title": "Question Title Here",
+  "difficulty": "EASY",
+  "sqlDialect": "SQLITE",
+  "tags": [
+    "select",
+    "where",
+    "join"
+  ],
+  "description": "Clear description of what the user needs to query.",
+  "orderSensitive": false,
+  "tables": [
+    {
+      "name": "TableName",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "amount",
+          "type": "REAL",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          1,
+          "Sample Row 1",
+          100.0
+        ],
+        [
+          2,
+          "Sample Row 2",
+          250.5
+        ]
+      ]
+    }
+  ],
+  "solutionQuery": "SELECT title, amount FROM TableName WHERE amount >= 100;",
+  "explanation": "Brief explanation of how the query works and which clauses were used."
+}
