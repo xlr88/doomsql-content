@@ -6,6 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -22,3 +24,12 @@ jobs:
             exit 1
           fi
           echo "manifest.json is up to date"
+
+      - name: Purge jsDelivr cache so the app sees the new questions right away
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: |
+          FILES="questions/manifest.json $(git diff --name-only HEAD~1 HEAD -- questions/ 2>/dev/null | grep -v manifest.json || true)"
+          for f in $FILES; do
+            echo "purge $f"
+            curl -s "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/$f" | head -c 200; echo
+          done

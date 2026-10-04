@@ -385,6 +385,19 @@ def git_preflight():
     git("pull", "--ff-only")
 
 
+def purge_cdn(ids):
+    """Ask jsDelivr to drop its cached copy, so the app sees new questions right away."""
+    paths = ["questions/manifest.json"] + [f"questions/{i}.json" for i in ids]
+    for path in paths:
+        try:
+            urllib.request.urlopen(
+                f"https://purge.jsdelivr.net/gh/xlr88/doomsql-content@main/{path}",
+                timeout=30, context=ssl_context()).read()
+        except Exception as e:
+            print(f"    [!] CDN purge failed for {path}: {e}")
+    print("[✓] CDN cache purged")
+
+
 # ----------------------------------------------------------------------------- main flow
 def generate(ai, counts, topic, crosscheck, log):
     existing = existing_questions()
@@ -523,6 +536,7 @@ def main():
             git("push")
         except RuntimeError as e:
             sys.exit(f"[x] Commit made but push failed — run 'git push' yourself.\n{e}")
+        purge_cdn(ids)
         print("[✓] Pushed. Users get these within ~24h (or tap 'Check for new questions').")
     else:
         print("\nTo publish:")
