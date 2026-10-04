@@ -48,7 +48,7 @@ LOG_DIR = os.path.join(REPO, "ai_runs")
 
 DEFAULT_MODELS = {
     "anthropic": "claude-sonnet-5-5",
-    "gemini": "gemini-2.5-flash",
+    "gemini": "gemini-3.8-flash",
     "openai": "gpt-4.1-mini",
 }
 
@@ -158,16 +158,19 @@ class AI:
         self.provider = (provider or os.environ.get("AI_PROVIDER") or "gemini").lower()
         if self.provider == "claude":
             self.provider = "anthropic"
-        key_names = {"anthropic": "ANTHROPIC_API_KEY", "gemini": "GEMINI_API_KEY", "openai": "OPENAI_API_KEY"}
+        key_names = {"anthropic": "ANTHROPIC_API_KEY", "gemini": "GEMINI_API_KEY", "openai": "OPENAI_API_KEY",
+                     "openrouter": "OPENROUTER_API_KEY"}
         if self.provider == "mock":  # used by tests only
             self.key, self.model = "", "mock"
             return
         if self.provider not in key_names:
-            sys.exit(f"[x] Unknown AI_PROVIDER '{self.provider}'. Use gemini, openai or anthropic.")
+            sys.exit(f"[x] Unknown AI_PROVIDER '{self.provider}'. Use gemini, openai, anthropic or openrouter.")
         self.key = os.environ.get(key_names[self.provider], "")
         if not self.key:
             sys.exit(f"[x] {key_names[self.provider]} is missing. Put it in .env (see .env.example).")
-        self.model = os.environ.get("AI_MODEL") or DEFAULT_MODELS[self.provider]
+        self.model = os.environ.get("AI_MODEL") or DEFAULT_MODELS.get(self.provider, "")
+        if not self.model:
+            sys.exit("[x] Set AI_MODEL in .env (OpenRouter needs a model id, e.g. one copied from openrouter.ai/models).")
         self.calls = 0
 
     def ask(self, prompt, temperature=0.9):
@@ -177,6 +180,12 @@ class AI:
                 self.calls = getattr(self, "calls", 0) + 1
                 return parse_json(self._call(prompt, temperature))
             except Exception as e:  # network blip, rate limit, bad JSON → retry
+                if "CERTIFICATE_VERIFY_FAILED" in str(e):
+                    sys.exit("[x] Python can't verify HTTPS certificates (common with python.org Python on Mac).\n"
+                             "    Fix:  python3 -m pip install --upgrade certifi\n"
+                             "    or:   open \"/Applications/Python 3.X/Install Certificates.command\"  (use your version)")
+                if "HTTP 400" in str(e) or "HTTP 401" in str(e) or "HTTP 403" in str(e) or "HTTP 404" in str(e):
+                    raise RuntimeError(f"{e}\n    → check the API key / AI_MODEL in .env") from None
                 last = e
                 time.sleep(3 * (attempt + 1))
         raise RuntimeError(f"AI request failed after 3 tries: {last}")
@@ -198,9 +207,13 @@ class AI:
                            "generationConfig": {"responseMimeType": "application/json",
                                                 "temperature": temperature}})
             return "".join(p.get("text", "") for p in r["candidates"][0]["content"]["parts"])
-        # openai
-        r = http_json("https://api.openai.com/v1/chat/completions",
-                      {"Authorization": f"Bearer {self.key}"},
+        # openai + openrouter (same API shape)
+        url = ("https://openrouter.ai/api/v1/chat/completions" if self.provider == "openrouter"
+               else "https://api.openai.com/v1/chat/completions")
+        headers = {"Authorization": f"Bearer {self.key}"}
+        if self.provider == "openrouter":
+            headers.update({"HTTP-Referer": "https://github.com/xlr88/doomsql-content", "X-Title": "DoomSQL ai_gen"})
+        r = http_json(url, headers,
                       {"model": self.model, "response_format": {"type": "json_object"},
                        "messages": [{"role": "system", "content": SYSTEM_PROMPT},
                                     {"role": "user", "content": prompt}]})
@@ -426,7 +439,7 @@ def main():
     p.add_argument("-m", "--m", "--medium", dest="m", type=int, default=0)
     p.add_argument("-H", "--h", "--hard", dest="h", type=int, default=0)
     p.add_argument("--topic", help='focus topic, e.g. "window functions"')
-    p.add_argument("--provider", help="gemini | openai | anthropic (overrides .env)")
+    p.add_argument("--provider", help="gemini | openai | anthropic | openrouter (overrides .env)")
     p.add_argument("--no-crosscheck", action="store_true", help="skip the independent-solver check")
     a = p.parse_args()
 

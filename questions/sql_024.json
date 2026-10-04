@@ -1,0 +1,167 @@
+{
+  "title": "Month-over-Month Stream Drops",
+  "difficulty": "MEDIUM",
+  "tags": [
+    "window function",
+    "lag",
+    "join"
+  ],
+  "description": "For each streaming show, compare its monthly stream count with the previous month that actually has data. Return one row per month where streams dropped: show_title, month (the month with the drop), streams (streams in that month) and prev_streams (streams in the show's previous recorded month). The first recorded month of each show has no previous month and must not appear. Results are ordered by show_title ascending, then month ascending.",
+  "orderSensitive": true,
+  "tables": [
+    {
+      "name": "Shows",
+      "columns": [
+        {
+          "name": "show_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "title",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "genre",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          1,
+          "Dark Orbit",
+          "Sci-Fi"
+        ],
+        [
+          2,
+          "Chef Wars",
+          "Reality"
+        ],
+        [
+          3,
+          "Tiny Homes",
+          "Documentary"
+        ]
+      ]
+    },
+    {
+      "name": "Streams",
+      "columns": [
+        {
+          "name": "show_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "month",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "streams",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          1,
+          "2024-01",
+          5000
+        ],
+        [
+          1,
+          "2024-02",
+          6200
+        ],
+        [
+          1,
+          "2024-03",
+          5800
+        ],
+        [
+          1,
+          "2024-04",
+          7100
+        ],
+        [
+          2,
+          "2024-01",
+          3000
+        ],
+        [
+          2,
+          "2024-02",
+          2500
+        ],
+        [
+          2,
+          "2024-03",
+          4100
+        ],
+        [
+          2,
+          "2024-04",
+          4100
+        ],
+        [
+          3,
+          "2024-01",
+          900
+        ],
+        [
+          3,
+          "2024-03",
+          800
+        ],
+        [
+          3,
+          "2024-04",
+          1500
+        ]
+      ]
+    }
+  ],
+  "solutionQuery": "WITH with_prev AS (SELECT s.title AS show_title, st.month AS month, st.streams AS streams, LAG(st.streams) OVER (PARTITION BY st.show_id ORDER BY st.month) AS prev_streams FROM Streams st JOIN Shows s ON s.show_id = st.show_id) SELECT show_title, month, streams, prev_streams FROM with_prev WHERE prev_streams IS NOT NULL AND streams < prev_streams ORDER BY show_title ASC, month ASC",
+  "explanation": "A CTE computes LAG(streams) partitioned by show and ordered by month, so each row sees the previous recorded month even when calendar months are missing (Tiny Homes skips 2024-02). The outer query keeps only rows where a previous month exists and streams actually fell. Ordering by show_title then month makes the output deterministic.",
+  "contentVersion": 1,
+  "sqlDialect": "SQLITE",
+  "minAppVersionCode": 1,
+  "id": "sql_024",
+  "expectedOutput": {
+    "columns": [
+      "show_title",
+      "month",
+      "streams",
+      "prev_streams"
+    ],
+    "rows": [
+      [
+        "Chef Wars",
+        "2024-02",
+        2500,
+        3000
+      ],
+      [
+        "Dark Orbit",
+        "2024-03",
+        5800,
+        6200
+      ],
+      [
+        "Tiny Homes",
+        "2024-03",
+        800,
+        900
+      ]
+    ]
+  }
+}

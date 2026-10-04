@@ -1,0 +1,187 @@
+{
+  "title": "Students Passing Either Exam",
+  "contentVersion": 1,
+  "difficulty": "MEDIUM",
+  "sqlDialect": "SQLITE",
+  "tags": [
+    "union",
+    "filtering"
+  ],
+  "description": "Return student_name for every student who scored at least 60 in either the Fall exam or the Spring exam, listing each student only once even if they passed both. Order the result by student_name ascending (A to Z). Students with a NULL score are treated as not passing.",
+  "orderSensitive": true,
+  "tables": [
+    {
+      "name": "FallExam",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "student_name",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "score",
+          "type": "INTEGER",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          1,
+          "Ava Reyes",
+          88
+        ],
+        [
+          2,
+          "Ben Okafor",
+          55
+        ],
+        [
+          3,
+          "Cara Lim",
+          60
+        ],
+        [
+          4,
+          "Diego Santos",
+          72
+        ],
+        [
+          5,
+          "Ella Novak",
+          91
+        ],
+        [
+          6,
+          "Farid Haddad",
+          40
+        ],
+        [
+          7,
+          "Grace Mwangi",
+          65
+        ],
+        [
+          8,
+          "Hana Sato",
+          59
+        ]
+      ]
+    },
+    {
+      "name": "SpringExam",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "student_name",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "score",
+          "type": "INTEGER",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          1,
+          "Ava Reyes",
+          92
+        ],
+        [
+          2,
+          "Ben Okafor",
+          78
+        ],
+        [
+          3,
+          "Cara Lim",
+          58
+        ],
+        [
+          4,
+          "Diego Santos",
+          45
+        ],
+        [
+          5,
+          "Ivan Petrov",
+          83
+        ],
+        [
+          6,
+          "Grace Mwangi",
+          88
+        ],
+        [
+          7,
+          "Hana Sato",
+          61
+        ],
+        [
+          8,
+          "Jules Moreau",
+          60
+        ],
+        [
+          9,
+          "Kai Nakamura",
+          null
+        ]
+      ]
+    }
+  ],
+  "solutionQuery": "SELECT student_name FROM FallExam WHERE score >= 60 UNION SELECT student_name FROM SpringExam WHERE score >= 60 ORDER BY student_name",
+  "explanation": "Each branch filters its own exam table to passing scores (score >= 60); comparisons against NULL are unknown so Kai Nakamura is dropped. UNION (rather than UNION ALL) removes duplicates, so Ava Reyes and Grace Mwangi, who passed both exams, appear once. The trailing ORDER BY sorts the combined set alphabetically by student_name.",
+  "id": "sql_022",
+  "minAppVersionCode": 1,
+  "expectedOutput": {
+    "columns": [
+      "student_name"
+    ],
+    "rows": [
+      [
+        "Ava Reyes"
+      ],
+      [
+        "Ben Okafor"
+      ],
+      [
+        "Cara Lim"
+      ],
+      [
+        "Diego Santos"
+      ],
+      [
+        "Ella Novak"
+      ],
+      [
+        "Grace Mwangi"
+      ],
+      [
+        "Hana Sato"
+      ],
+      [
+        "Ivan Petrov"
+      ],
+      [
+        "Jules Moreau"
+      ]
+    ]
+  }
+}

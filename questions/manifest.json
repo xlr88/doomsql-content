@@ -1,6 +1,6 @@
 {
-  "manifestVersion": 6,
-  "generatedAt": "2026-10-03T18:14:30+00:00",
+  "manifestVersion": 9,
+  "generatedAt": "2026-10-04T04:50:57+00:00",
   "questions": [
     {
       "id": "sql_001",
@@ -201,6 +201,56 @@
       "difficulty": "MEDIUM",
       "title": "Authors Without Published Books",
       "addedAt": "2026-10-03"
+    },
+    {
+      "id": "sql_021",
+      "file": "sql_021.json",
+      "contentVersion": 1,
+      "sha256": "de57841980a3d7a195818a6cf0016976c05b6073a29f7fb75e18790de2e86afe",
+      "minAppVersionCode": 1,
+      "difficulty": "EASY",
+      "title": "Ride Earnings Summary",
+      "addedAt": "2026-10-04"
+    },
+    {
+      "id": "sql_022",
+      "file": "sql_022.json",
+      "contentVersion": 1,
+      "sha256": "3891161145efa491f27948aa932eb5c1806bb794f6e8433b4772b02d41789701",
+      "minAppVersionCode": 1,
+      "difficulty": "MEDIUM",
+      "title": "Students Passing Either Exam",
+      "addedAt": "2026-10-04"
+    },
+    {
+      "id": "sql_023",
+      "file": "sql_023.json",
+      "contentVersion": 1,
+      "sha256": "a066e20855801ac51322639ea00ed276a4afb682ff04b45dca43c7d24e3c1b44",
+      "minAppVersionCode": 1,
+      "difficulty": "EASY",
+      "title": "Bonuses Replaced with Zero",
+      "addedAt": "2026-10-04"
+    },
+    {
+      "id": "sql_024",
+      "file": "sql_024.json",
+      "contentVersion": 1,
+      "sha256": "ad20c50957da3d9a569e1852145e78e62ab41da1f711eadb643309398ea57055",
+      "minAppVersionCode": 1,
+      "difficulty": "MEDIUM",
+      "title": "Month-over-Month Stream Drops",
+      "addedAt": "2026-10-04"
+    },
+    {
+      "id": "sql_025",
+      "file": "sql_025.json",
+      "contentVersion": 1,
+      "sha256": "aab0d35e8fb9a4230f30c74cb30f43820df4f2b688bbff297c1f41202a772244",
+      "minAppVersionCode": 1,
+      "difficulty": "HARD",
+      "title": "Consecutive Check Numbers Per Account",
+      "addedAt": "2026-10-04"
     }
   ]
 }

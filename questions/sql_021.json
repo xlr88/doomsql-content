@@ -1,0 +1,124 @@
+{
+  "title": "Ride Earnings Summary",
+  "contentVersion": 1,
+  "difficulty": "EASY",
+  "sqlDialect": "SQLITE",
+  "tags": [
+    "aggregation",
+    "null handling",
+    "coalesce"
+  ],
+  "description": "Return a single row with ride_count (the total number of rides), total_revenue (the sum of fare plus tip for every ride, treating a missing fare or missing tip as 0), and best_tip (the largest tip of any ride). Rides with a NULL tip must not be counted as a zero when finding the largest tip.",
+  "orderSensitive": false,
+  "tables": [
+    {
+      "name": "Rides",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "driver_name",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "fare",
+          "type": "REAL",
+          "nullable": true,
+          "primaryKey": false
+        },
+        {
+          "name": "tip",
+          "type": "REAL",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          1,
+          "Ana",
+          12.5,
+          2.0
+        ],
+        [
+          2,
+          "Ben",
+          8.0,
+          null
+        ],
+        [
+          3,
+          "Cara",
+          null,
+          3.5
+        ],
+        [
+          4,
+          "Dan",
+          20.0,
+          5.0
+        ],
+        [
+          5,
+          "Ana",
+          9.5,
+          1.0
+        ],
+        [
+          6,
+          "Ben",
+          15.0,
+          null
+        ],
+        [
+          7,
+          "Eve",
+          null,
+          null
+        ],
+        [
+          8,
+          "Cara",
+          11.0,
+          4.0
+        ],
+        [
+          9,
+          "Dan",
+          7.5,
+          2.5
+        ],
+        [
+          10,
+          "Eve",
+          18.0,
+          1.5
+        ]
+      ]
+    }
+  ],
+  "solutionQuery": "SELECT COUNT(*) AS ride_count, ROUND(SUM(COALESCE(fare, 0) + COALESCE(tip, 0)), 2) AS total_revenue, MAX(tip) AS best_tip FROM Rides",
+  "explanation": "COUNT(*) counts every ride regardless of NULLs, while COALESCE replaces missing fares and tips with 0 before they are added and summed so NULL rows still contribute their known part. MAX(tip) ignores NULL tips automatically, which is why ride id 4 with a 5.0 tip wins. The result is one row.",
+  "id": "sql_021",
+  "minAppVersionCode": 1,
+  "expectedOutput": {
+    "columns": [
+      "ride_count",
+      "total_revenue",
+      "best_tip"
+    ],
+    "rows": [
+      [
+        10,
+        121.0,
+        5.0
+      ]
+    ]
+  }
+}

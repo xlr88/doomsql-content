@@ -1,0 +1,180 @@
+{
+  "title": "Consecutive Check Numbers Per Account",
+  "difficulty": "HARD",
+  "tags": [
+    "gaps and islands",
+    "window functions",
+    "cte"
+  ],
+  "description": "A bank keeps a checks table logging the check number written against each account; a row with voided = 1 is a cancelled check that must be ignored and that also breaks any run of consecutive check numbers. For every maximal run of consecutive check numbers on an account, return account_id, start_check_no, end_check_no (both inclusive) and num_checks (how many checks are in the run). Accounts whose checks are all voided must not appear at all. Return the rows ordered by account_id ascending, then start_check_no ascending.",
+  "orderSensitive": true,
+  "tables": [
+    {
+      "name": "checks",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "account_id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "check_no",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "voided",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          1,
+          101,
+          1001,
+          0
+        ],
+        [
+          2,
+          101,
+          1002,
+          0
+        ],
+        [
+          3,
+          101,
+          1003,
+          0
+        ],
+        [
+          4,
+          101,
+          1004,
+          1
+        ],
+        [
+          5,
+          101,
+          1005,
+          0
+        ],
+        [
+          6,
+          101,
+          1006,
+          0
+        ],
+        [
+          7,
+          101,
+          1010,
+          0
+        ],
+        [
+          8,
+          102,
+          2001,
+          0
+        ],
+        [
+          9,
+          102,
+          2003,
+          0
+        ],
+        [
+          10,
+          102,
+          2004,
+          0
+        ],
+        [
+          11,
+          102,
+          2005,
+          0
+        ],
+        [
+          12,
+          103,
+          3001,
+          0
+        ],
+        [
+          13,
+          104,
+          4001,
+          1
+        ],
+        [
+          14,
+          104,
+          4002,
+          1
+        ]
+      ]
+    }
+  ],
+  "solutionQuery": "WITH valid AS (SELECT account_id, check_no FROM checks WHERE voided = 0), grouped AS (SELECT account_id, check_no, check_no - ROW_NUMBER() OVER (PARTITION BY account_id ORDER BY check_no) AS island_key FROM valid) SELECT account_id, MIN(check_no) AS start_check_no, MAX(check_no) AS end_check_no, COUNT(*) AS num_checks FROM grouped GROUP BY account_id, island_key ORDER BY account_id ASC, start_check_no ASC",
+  "explanation": "First filter out voided rows, because a cancelled check must not be counted and it splits a run. Then the classic gaps-and-islands trick: subtract ROW_NUMBER() (partitioned per account, ordered by check_no) from check_no, which is constant for every consecutive sequence and changes whenever a gap appears, producing island_key. Grouping by account_id and island_key yields MIN/MAX/COUNT for each run, and accounts whose checks were all voided disappear because they never enter the CTE.",
+  "contentVersion": 1,
+  "sqlDialect": "SQLITE",
+  "minAppVersionCode": 1,
+  "id": "sql_025",
+  "expectedOutput": {
+    "columns": [
+      "account_id",
+      "start_check_no",
+      "end_check_no",
+      "num_checks"
+    ],
+    "rows": [
+      [
+        101,
+        1001,
+        1003,
+        3
+      ],
+      [
+        101,
+        1005,
+        1006,
+        2
+      ],
+      [
+        101,
+        1010,
+        1010,
+        1
+      ],
+      [
+        102,
+        2001,
+        2001,
+        1
+      ],
+      [
+        102,
+        2003,
+        2005,
+        3
+      ],
+      [
+        103,
+        3001,
+        3001,
+        1
+      ]
+    ]
+  }
+}

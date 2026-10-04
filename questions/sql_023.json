@@ -1,0 +1,127 @@
+{
+  "title": "Bonuses Replaced with Zero",
+  "difficulty": "EASY",
+  "tags": [
+    "null handling",
+    "coalesce"
+  ],
+  "description": "For every employee, return name and bonus_paid, where bonus_paid is the employee's bonus value when it is not NULL, and 0 when the bonus is NULL. Each employee appears exactly once, ordered by name ascending (names are unique).",
+  "orderSensitive": true,
+  "tables": [
+    {
+      "name": "Employees",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER",
+          "nullable": false,
+          "primaryKey": true
+        },
+        {
+          "name": "name",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "department",
+          "type": "TEXT",
+          "nullable": false,
+          "primaryKey": false
+        },
+        {
+          "name": "bonus",
+          "type": "REAL",
+          "nullable": true,
+          "primaryKey": false
+        }
+      ],
+      "rows": [
+        [
+          1,
+          "Alice Nguyen",
+          "Sales",
+          5000.0
+        ],
+        [
+          2,
+          "Ben Carter",
+          "Engineering",
+          null
+        ],
+        [
+          3,
+          "Chloe Diaz",
+          "Sales",
+          1500.0
+        ],
+        [
+          4,
+          "Daniel Okafor",
+          "Marketing",
+          null
+        ],
+        [
+          5,
+          "Elena Petrova",
+          "Engineering",
+          3000.0
+        ],
+        [
+          6,
+          "Frank Moreau",
+          "Support",
+          750.0
+        ],
+        [
+          7,
+          "Grace Lin",
+          "Marketing",
+          null
+        ]
+      ]
+    }
+  ],
+  "solutionQuery": "SELECT name, COALESCE(bonus, 0) AS bonus_paid FROM Employees ORDER BY name ASC",
+  "explanation": "COALESCE returns its first non-NULL argument, so COALESCE(bonus, 0) turns every missing bonus into a numeric 0 while leaving real bonus values untouched. No WHERE clause is used because every employee must be listed, and the final ORDER BY name makes the output deterministic.",
+  "contentVersion": 1,
+  "sqlDialect": "SQLITE",
+  "minAppVersionCode": 1,
+  "id": "sql_023",
+  "expectedOutput": {
+    "columns": [
+      "name",
+      "bonus_paid"
+    ],
+    "rows": [
+      [
+        "Alice Nguyen",
+        5000.0
+      ],
+      [
+        "Ben Carter",
+        0
+      ],
+      [
+        "Chloe Diaz",
+        1500.0
+      ],
+      [
+        "Daniel Okafor",
+        0
+      ],
+      [
+        "Elena Petrova",
+        3000.0
+      ],
+      [
+        "Frank Moreau",
+        750.0
+      ],
+      [
+        "Grace Lin",
+        0
+      ]
+    ]
+  }
+}

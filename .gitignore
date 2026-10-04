@@ -8,3 +8,5 @@ drafts/
 # secrets + generator logs
 .env
 ai_runs/
+.env.example
+*.md
